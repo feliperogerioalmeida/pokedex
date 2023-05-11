@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const {connect} = require('./models');
 const path = require('path');
