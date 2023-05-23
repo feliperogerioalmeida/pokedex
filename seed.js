@@ -168,11 +168,6 @@ const populaBancoDeDados = async () => {
                 speed: 100
             }
         },
-
-
-
-
-
     ); 
 
     await mongoose.disconnect();
