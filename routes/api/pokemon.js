@@ -36,6 +36,17 @@ router.post('/', async (req, res) => {
                 }
             }
 
+            if (filtros.pesoMinimo){
+                options.peso = {
+                    $gte: filtros.pesoMinimo
+                }
+            }
+
+            if (filtros.alturaMinima){
+                options.altura = {
+                    $gte: filtros.alturaMinima
+                }
+            }
 
             const pokemons = await Pokemon.find(options);
 
@@ -93,6 +104,25 @@ router.post('/', async (req, res) => {
             })
         }
     });
+
+// DELETE
+
+    router.delete('/:id', async(req,res) =>{
+        try{
+            const pokemon = await Pokemon.findOne({_id:req.params.id})
+            res.json({
+                sucesso:true,
+                pokemon: pokemon,
+            })
+
+
+        }catch(e){
+            res.status(422).json({
+                sucesso: false,
+                erro : "Não Possui esse Pokemon em Sua Pokedex",
+            })
+        }
+    })
 
 
 
