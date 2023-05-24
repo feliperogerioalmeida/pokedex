@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.post('/:id', async (req, res) => {
     try{
+
         const pokemon = await buscaInfoPokemon(req.params.id)
         const pokemonFoiCapturado = Math.random() <= 0.4;        
         
@@ -22,6 +23,7 @@ router.post('/:id', async (req, res) => {
                 capturado: true,
                 id: pokemonCapturado._id, 
             });
+
         }else{
         res.status(500).json({ erro: e})
         }
