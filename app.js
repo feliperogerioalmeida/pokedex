@@ -27,6 +27,11 @@ app.use('/batalha', batalhaRouter);
 app.use('/api', apiRouter);
 
 // caso não de match em nenhuma, tratamos o 404
+app.use((_req, _res, next) => {
+    next(createError(404));
+})
+
+// tratativa de erro genérica
 app.use((err , _req, res, _next) => {
     res.status(err.status || 500);
     res.render('paginas/erro', {
