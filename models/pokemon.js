@@ -41,8 +41,15 @@ const Pokemon = new Schema({
     jogos:{
         type: Object,
         required: false,
+    },
+    capturadoPor:{
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref : 'User'
     }
 
 });
+
+Pokemon.index({capturadoPor : 1})
 
 module.exports = Pokemon;
