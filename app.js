@@ -1,15 +1,31 @@
 require('dotenv').config();
 
 const express = require('express');
-const {connect} = require('./models');
+const passport = require('passport');
+const session = require('express-session');
+const createError = require('create-errors');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
+
+
+const {connect} = require('./models');
+
 
 const pokemonsRouter = require('./routes/pokemons');
 const batalhaRouter = require('./routes/batalha');
 const apiRouter = require('./routes/api');
 
 const app = express();
+
+//configurando autenticação (passport)
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // configurando ejs
 app.set('views',path.join(__dirname, 'views'));
