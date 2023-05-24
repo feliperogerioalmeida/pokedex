@@ -11,6 +11,7 @@ const corsOptions = {
 const capturaRouter = require('./captura');
 const statusRouter = require('./status');
 const pokemonsRouter = require('./pokemon');
+const autenticacaoRouter = require('./autenticacao');
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.use(express.json());
 router.use('/captura',cors(corsOptions),capturaRouter);
 router.use('/status',cors(corsOptions), statusRouter);
 router.use('/pokemons',cors(corsOptions),pokemonsRouter);
+router.use('/autenticacao',cors(corsOptions),autenticacaoRouter);
 
 module.exports = router;
