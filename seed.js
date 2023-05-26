@@ -171,7 +171,7 @@ const populaBancoDeDados = async () => {
         },
     ); 
 
-    await Usuario.create(
+    await Usuario.reate(
         {
             email: 'dev@teste.com.br',
             nome: 'Dev',

@@ -3,19 +3,27 @@ require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
-const createError = require('create-errors');
+const createError = require('http-errors');
 const path = require('path');
 const expressLayouts = require('express-ejs-layouts');
 
 
 const {connect} = require('./models');
 
-
+require('./routes/auth/')
 const pokemonsRouter = require('./routes/pokemons');
 const batalhaRouter = require('./routes/batalha');
+const autenticacaoRouter = require('./routes/auth');
 const apiRouter = require('./routes/api');
+const homeRouter = require('./routes/home');
+
+const { checaAutenticado } = require('./routes/middlewares/checa-autenticacao');
 
 const app = express();
+
+// configurando leitura de corpo
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 
 //configurando autenticação (passport)
 app.use(session({
@@ -36,8 +44,11 @@ app.use(expressLayouts);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // declarando rotas
-app.use('/pokemons',pokemonsRouter);
-app.use('/batalha', batalhaRouter);
+app.use('/pokemons', checaAutenticado, pokemonsRouter);
+app.use('/batalha', checaAutenticado, batalhaRouter);
+app.use('/auth', autenticacaoRouter);
+app.use('/', checaAutenticado, homeRouter);
+
 
 // declarando rotas api
 app.use('/api', apiRouter);
