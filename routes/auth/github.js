@@ -1,37 +1,37 @@
 const passport = require('passport');
 const crypto = require('crypto');
-const {OAuth2Strategy} = require('passport-google-oauth');
+const GitHubStrategy = require('passport-github2').Strategy;
 
 const {Usuario} = require('../../models/');
 
-passport.use(new OAuth2Strategy({
-    clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_OAUTH_REDIRECT_URI,
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.GITHUB_REDIRECT_URI,
     scope: ['profile', 'email'],
     state: true,
 
-
-}, async(_accessToken, _refreshtoken, perfil, done) => {
+}, async (_accessToken, _refreshToken, perfil, done) => {
     let usuario;
-    
-    const usuarioEmail = perfil.emails[0].value;
 
+    let usuarioEmail = perfil.emails?.[0]?.value || 'semEmail@github.com';
+        
     try{
         usuario = await Usuario.findOneAndUpdate({email: usuarioEmail}, {
-            googleUsuarioId: perfil.id
+            githubUsuarioId: perfil.id
         });
 
         if (!usuario){
             usuario = await Usuario.create({
                 email: usuarioEmail,
-                googleUsuarioID: perfil.id,
+                githubUsuarioID: perfil.id,
                 nome: perfil.displayName,
                 senha: (await crypto.randomBytes(48)).toString('hex'),
             })
         }
-
+        
         done(null, usuario);
+
     }catch  (err) {
         done(err, null);
     }

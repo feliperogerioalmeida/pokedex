@@ -25,6 +25,7 @@ router.post('/', passport.authenticate('local', {
 
 }));
 
+// GOOGLE AUTH
 router.get('/google', checaNaoAutenticado, passport.authenticate('google'));
 
 router.get( '/oauth2/redirect/google', checaNaoAutenticado, 
@@ -33,6 +34,18 @@ router.get( '/oauth2/redirect/google', checaNaoAutenticado,
         failureMessage: true
 }), (_req,res)=>{
     res.redirect('/');
-})
+});
+
+// GITHUB AUTH
+router.get('/github', checaNaoAutenticado, passport.authenticate('github'));
+
+router.get( '/oauth2/redirect/github', checaNaoAutenticado,
+    passport.authenticate('github',{
+        failureRedirect: '/auth',
+        failureMessage: true,
+    }), (_req, res) => {
+        res.redirect('/');
+    });
+
 
 module.exports = router;

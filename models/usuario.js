@@ -18,11 +18,15 @@ const Usuario = new Schema({
             message : props => `${props.value} não é um email valido!`
         }
     },
-    senha:{
+    senha: {
         type : String,
         required: true,
     },
     googleUsuarioID:{
+        type : String,
+        required: false,
+    },
+    githubUsuarioID:{
         type : String,
         required: false,
     },
