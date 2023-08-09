@@ -22,6 +22,10 @@ const Usuario = new Schema({
         type : String,
         required: true,
     },
+    googleUsuarioID:{
+        type : String,
+        required: false,
+    },
 
 })
 
