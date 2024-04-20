@@ -36,6 +36,7 @@ const makeCaptureRequest = () => {
   const xmlHttp = new XMLHttpRequest();
   const pokeId = document.getElementById('pokeId').value;
   xmlHttp.open('POST', `/api/captura/${pokeId}`, false);
+  xmlHttp.setRequestHeader('authorization', `Bearer ${token}`)
   xmlHttp.send(null);
   const response = JSON.parse(xmlHttp.responseText);
 
